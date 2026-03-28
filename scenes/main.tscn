@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://b1lxrw3y2pxtx"]
+
+[ext_resource type="Script" uid="uid://buelyq143eut8" path="res://scripts/main.gd" id="1_0wfyh"]
+[ext_resource type="PackedScene" uid="uid://drowuqqrylcgs" path="res://scenes/frog.tscn" id="1_o5qli"]
+
+[node name="Main" type="Node2D" unique_id=770406121]
+script = ExtResource("1_0wfyh")
+
+[node name="Frog" parent="." unique_id=311887858 instance=ExtResource("1_o5qli")]
+
+[node name="Camera" type="Camera2D" parent="." unique_id=220433897]
+zoom = Vector2(3, 3)
