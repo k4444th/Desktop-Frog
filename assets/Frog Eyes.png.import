@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dp0mlckd0l618"
-path="res://.godot/imported/Eyes.png-a1b0e8ef45ee6014204ab9bb46ec45b4.ctex"
+uid="uid://dkrm2ohdfms0m"
+path="res://.godot/imported/Frog Eyes.png-d5a5c8497b5211d4619fa611770cbfe0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Eyes.png"
-dest_files=["res://.godot/imported/Eyes.png-a1b0e8ef45ee6014204ab9bb46ec45b4.ctex"]
+source_file="res://assets/Frog Eyes.png"
+dest_files=["res://.godot/imported/Frog Eyes.png-d5a5c8497b5211d4619fa611770cbfe0.ctex"]
 
 [params]
 
