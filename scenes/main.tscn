@@ -12,7 +12,7 @@ script = ExtResource("1_0wfyh")
 zoom = Vector2(3, 3)
 
 [node name="ClickTimer" type="Timer" parent="." unique_id=1462236319]
-wait_time = 0.15
+wait_time = 0.2
 one_shot = true
 
 [connection signal="timeout" from="ClickTimer" to="." method="_on_click_timer_timeout"]

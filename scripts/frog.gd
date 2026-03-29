@@ -47,16 +47,50 @@ func jump(right: bool, doubleClick: bool):
 		
 		var window = get_window()
 		var usableRect := DisplayServer.screen_get_usable_rect()
-		
+		var jumpDistance = defaultJumpDistance * 2 if doubleClick else defaultJumpDistance
+
 		var startPos = window.position
 		var timePassed = 0.0
-		
-		var jumpDistance = defaultJumpDistance * 2 if doubleClick else defaultJumpDistance
-		
-		if window.position.x + window.size.x + jumpDistance > usableRect.end.x:
-			right = false
-		elif window.position.x - jumpDistance < usableRect.position.x:
-			right = true
+
+		var smallJump = defaultJumpDistance
+		var bigJump = defaultJumpDistance * 2
+
+		var canJumpRightSmall = window.position.x + window.size.x + smallJump <= usableRect.end.x
+		var canJumpRightBig = window.position.x + window.size.x + bigJump <= usableRect.end.x
+
+		var canJumpLeftSmall = window.position.x - smallJump >= usableRect.position.x
+		var canJumpLeftBig = window.position.x - bigJump >= usableRect.position.x
+
+		if right:
+			if doubleClick:
+				if canJumpRightBig:
+					jumpDistance = bigJump
+				elif canJumpRightSmall:
+					jumpDistance = smallJump
+				else:
+					right = false
+					jumpDistance = smallJump
+			else:
+				if canJumpRightSmall:
+					jumpDistance = smallJump
+				else:
+					right = false
+					jumpDistance = smallJump
+		else:
+			if doubleClick:
+				if canJumpLeftBig:
+					jumpDistance = bigJump
+				elif canJumpLeftSmall:
+					jumpDistance = smallJump
+				else:
+					right = true
+					jumpDistance = smallJump
+			else:
+				if canJumpLeftSmall:
+					jumpDistance = smallJump
+				else:
+					right = true
+					jumpDistance = smallJump
 		
 		var direction = 1 if right else -1
 		if !right:
