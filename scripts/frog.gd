@@ -1,12 +1,12 @@
 extends AnimatedSprite2D
 
 var jumpHeight := 50
-var jumpDistance := 100
+var defaultJumpDistance := 100
 var jumpDuration := 0.5
 var jumping := false
 var baseEyePos := Vector2(0, 1)
 
-@onready var blinkTimer := $Timer
+@onready var blinkTimer := $BlinkTimer
 @onready var eyesNode := $Eyes
 @onready var pupilsNode := $Eyes/Pupils
 
@@ -40,7 +40,7 @@ func followMouse():
 	
 	pupilsNode.position = pupilsPos
 
-func jump(right: bool):
+func jump(right: bool, doubleClick: bool):
 	if !jumping:
 		eyesNode.visible = false
 		animation = "jump"
@@ -50,6 +50,8 @@ func jump(right: bool):
 		
 		var startPos = window.position
 		var timePassed = 0.0
+		
+		var jumpDistance = defaultJumpDistance * 2 if doubleClick else defaultJumpDistance
 		
 		if window.position.x + window.size.x + jumpDistance > usableRect.end.x:
 			right = false
