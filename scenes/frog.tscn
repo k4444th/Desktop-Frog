@@ -95,7 +95,7 @@ animations = [{
 
 [node name="Frog" type="AnimatedSprite2D" unique_id=1752074068]
 sprite_frames = SubResource("SpriteFrames_ybftx")
-animation = &"jump"
+animation = &"idle"
 autoplay = "idle"
 script = ExtResource("2_rq8tc")
 

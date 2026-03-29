@@ -7,6 +7,7 @@ var clickPosition := Vector2.ZERO
 
 @onready var frogNode := $Frog
 @onready var clickTimer := $ClickTimer
+@onready var cameraNode := $Camera
 
 func _ready() -> void:
 	var window = get_window()
@@ -19,6 +20,9 @@ func _ready() -> void:
 	
 	var usableRect := DisplayServer.screen_get_usable_rect()
 	var yPos = usableRect.end.y - window.size.y
+	
+	if DisplayServer.screen_get_usable_rect().size.y < DisplayServer.screen_get_size().y:
+		yPos += cameraNode.zoom.y
 	
 	window.position = Vector2i(0, yPos)
 
