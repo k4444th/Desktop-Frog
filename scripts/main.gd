@@ -21,7 +21,8 @@ func _ready() -> void:
 	var usableRect := DisplayServer.screen_get_usable_rect()
 	var yPos = usableRect.end.y - window.size.y
 	
-	if DisplayServer.screen_get_usable_rect().size.y < DisplayServer.screen_get_size().y:
+	# ToDo: Herausfinden, wie groß der Buffer genau sein muss!
+	if DisplayServer.screen_get_size().y - DisplayServer.screen_get_usable_rect().size.y > 100:
 		yPos += cameraNode.zoom.y
 	
 	window.position = Vector2i(0, yPos)
@@ -44,5 +45,4 @@ func _on_click_timer_timeout() -> void:
 	if clickPending:
 		clickPending = false
 	
-	var is_left_side = clickPosition.x < get_window().size.x / 2.0
-	frogNode.jump(is_left_side, false)
+	frogNode.jump(clickPosition.x < get_window().size.x / 2.0, false)

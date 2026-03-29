@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://c0sbkbutrnfp7" path="res://assets/Frog Idle.png" id="1_mqod6"]
 [ext_resource type="Texture2D" uid="uid://dp0mlckd0l618" path="res://assets/Frog Pupils.png" id="2_qyo2l"]
 [ext_resource type="Script" uid="uid://c1g75m7tptlow" path="res://scripts/frog.gd" id="2_rq8tc"]
-[ext_resource type="Texture2D" uid="uid://cr3mpo7onov8d" path="res://assets/Frog Jump.png" id="2_ybftx"]
+[ext_resource type="Texture2D" uid="uid://b24vvy3xdb1gj" path="res://assets/Frog Jump.png" id="2_ybftx"]
 [ext_resource type="Texture2D" uid="uid://dkrm2ohdfms0m" path="res://assets/Frog Eyes.png" id="3_1g2vb"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rq8tc"]
@@ -17,6 +17,26 @@ region = Rect2(60, 0, 60, 39)
 [sub_resource type="AtlasTexture" id="AtlasTexture_p8yr8"]
 atlas = ExtResource("1_mqod6")
 region = Rect2(120, 0, 60, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eqhdc"]
+atlas = ExtResource("2_ybftx")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4au2m"]
+atlas = ExtResource("2_ybftx")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wiiuq"]
+atlas = ExtResource("2_ybftx")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mokc4"]
+atlas = ExtResource("2_ybftx")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4pjqi"]
+atlas = ExtResource("2_ybftx")
+region = Rect2(256, 0, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ybftx"]
 animations = [{
@@ -39,11 +59,23 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_ybftx")
+"texture": SubResource("AtlasTexture_eqhdc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4au2m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wiiuq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mokc4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4pjqi")
 }],
-"loop": true,
+"loop": false,
 "name": &"jump",
-"speed": 5.0
+"speed": 10.0
 }]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ybftx"]
@@ -95,7 +127,7 @@ animations = [{
 
 [node name="Frog" type="AnimatedSprite2D" unique_id=1752074068]
 sprite_frames = SubResource("SpriteFrames_ybftx")
-animation = &"idle"
+animation = &"jump"
 autoplay = "idle"
 script = ExtResource("2_rq8tc")
 

@@ -13,14 +13,15 @@ config_version=5
 config/name="Desktop Frog"
 run/main_scene="uid://b1lxrw3y2pxtx"
 config/features=PackedStringArray("4.6", "Forward Plus")
+boot_splash/bg_color=Color(0.14117648, 0.14117648, 0.14117648, 0)
 boot_splash/use_filter=false
 boot_splash/image="uid://1w5be1eoabl0"
 config/icon="uid://1w5be1eoabl0"
 
 [display]
 
-window/size/viewport_width=180
-window/size/viewport_height=117
+window/size/viewport_width=192
+window/size/viewport_height=192
 window/size/borderless=true
 window/size/always_on_top=true
 window/size/transparent=true

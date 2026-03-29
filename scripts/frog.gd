@@ -2,7 +2,7 @@ extends AnimatedSprite2D
 
 var jumpHeight := 50
 var defaultJumpDistance := 100
-var jumpDuration := 0.5
+var jumpDuration := 0.5		# 0.1 * num frames in "jump" animation
 var jumping := false
 var baseEyePos := Vector2(0, 1)
 
@@ -43,7 +43,7 @@ func followMouse():
 func jump(right: bool, doubleClick: bool):
 	if !jumping:
 		eyesNode.visible = false
-		animation = "jump"
+		play("jump")
 		
 		var window = get_window()
 		var usableRect := DisplayServer.screen_get_usable_rect()
@@ -97,6 +97,7 @@ func jump(right: bool, doubleClick: bool):
 			flip_h = true
 		
 		jumping = true
+		
 		while timePassed < jumpDuration:
 			await get_tree().process_frame
 			timePassed += get_process_delta_time()
@@ -108,8 +109,8 @@ func jump(right: bool, doubleClick: bool):
 			window.position = Vector2i(Vector2(startPos) + Vector2(x, y))
 		
 		window.position = Vector2i(startPos) + Vector2i(jumpDistance * direction, 0)
-		jumping = false
 		
+		jumping = false
 		eyesNode.visible = true
 		animation = "idle"
 		flip_h = false
