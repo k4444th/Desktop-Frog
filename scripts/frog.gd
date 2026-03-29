@@ -1,5 +1,9 @@
 extends AnimatedSprite2D
 
+var jumpHeight := 50
+var jumpDistance := 100
+var jumpDuration := 0.5
+var jumping := false
 var baseEyePos := Vector2(0, 1)
 
 @onready var blinkTimer := $Timer
@@ -8,6 +12,7 @@ var baseEyePos := Vector2(0, 1)
 
 func _ready() -> void:
 	eyesNode.animation = "open"
+	animation = "idle"
 
 func _on_frame_changed() -> void:
 	setEyeBasePos()
@@ -34,6 +39,44 @@ func followMouse():
 	pupilsPos.y = clamp(pupilsPos.y, 0 , 3)
 	
 	pupilsNode.position = pupilsPos
+
+func jump(right: bool):
+	if !jumping:
+		eyesNode.visible = false
+		animation = "jump"
+		
+		var window = get_window()
+		var usableRect := DisplayServer.screen_get_usable_rect()
+		
+		var startPos = window.position
+		var timePassed = 0.0
+		
+		if window.position.x + window.size.x + jumpDistance > usableRect.end.x:
+			right = false
+		elif window.position.x - jumpDistance < usableRect.position.x:
+			right = true
+		
+		var direction = 1 if right else -1
+		if !right:
+			flip_h = true
+		
+		jumping = true
+		while timePassed < jumpDuration:
+			await get_tree().process_frame
+			timePassed += get_process_delta_time()
+			
+			var t = timePassed / jumpDuration
+			var x = lerp(0.0, float(jumpDistance * direction), t)
+			var y = -sin(t * PI) * jumpHeight
+			
+			window.position = Vector2i(Vector2(startPos) + Vector2(x, y))
+		
+		window.position = Vector2i(startPos) + Vector2i(jumpDistance * direction, 0)
+		jumping = false
+		
+		eyesNode.visible = true
+		animation = "idle"
+		flip_h = false
 
 func _on_timer_timeout() -> void:
 	pupilsNode.visible = false

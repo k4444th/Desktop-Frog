@@ -15,6 +15,7 @@ run/main_scene="uid://b1lxrw3y2pxtx"
 config/features=PackedStringArray("4.6", "Forward Plus")
 boot_splash/use_filter=false
 boot_splash/image="uid://1w5be1eoabl0"
+config/icon="uid://1w5be1eoabl0"
 
 [display]
 
