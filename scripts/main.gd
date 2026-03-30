@@ -22,7 +22,7 @@ func _ready() -> void:
 	var yPos = usableRect.end.y - window.size.y
 	
 	# ToDo: Herausfinden, wie groß der Buffer genau sein muss!
-	if DisplayServer.screen_get_size().y - DisplayServer.screen_get_usable_rect().size.y > 100:
+	if OS.get_name() == "Windows":
 		yPos += cameraNode.zoom.y
 	
 	window.position = Vector2i(0, yPos)
