@@ -33,7 +33,7 @@ func setEyeBasePos():
 func followMouse():
 	var mousePos = get_global_mouse_position()
 	var pupilsPos = mousePos
-	pupilsPos.y += 5
+	pupilsPos.y += 2
 	
 	pupilsPos.x = clamp(pupilsPos.x, -3, 0)
 	pupilsPos.y = clamp(pupilsPos.y, 0 , 3)
@@ -112,7 +112,7 @@ func jump(right: bool, doubleClick: bool):
 		
 		jumping = false
 		eyesNode.visible = true
-		animation = "idle"
+		play("idle")
 		flip_h = false
 
 func _on_timer_timeout() -> void:
