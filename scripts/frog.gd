@@ -4,7 +4,8 @@ var jumpHeight := 50
 var defaultJumpDistance := 100
 var jumpDuration := 0.5		# 0.1 * num frames in "jump" animation
 var jumping := false
-var baseEyePos := Vector2(0, 1)
+var baseEyePos := Vector2(0, -11)
+var eyePos := baseEyePos
 
 @onready var blinkTimer := $BlinkTimer
 @onready var eyesNode := $Eyes
@@ -21,14 +22,12 @@ func _process(_delta: float) -> void:
 	followMouse()
 
 func setEyeBasePos():
-	if frame % 2 == 1:
-		baseEyePos.y = 0
-	elif frame == 0:
-		baseEyePos.y = 1
-	elif frame == 2:
-		baseEyePos.y = -1
-	
-	eyesNode.position = baseEyePos
+	if frame >= 1 and frame <= 5:
+		eyePos.y = baseEyePos.y - 1
+	else:
+		eyePos.y = baseEyePos.y
+		
+	eyesNode.position = eyePos
 
 func followMouse():
 	var mousePos = get_global_mouse_position()
@@ -116,11 +115,15 @@ func jump(right: bool, doubleClick: bool):
 		flip_h = false
 
 func _on_timer_timeout() -> void:
-	pupilsNode.visible = false
 	eyesNode.play("blink")
 
 func _on_eyes_animation_finished() -> void:
 	if eyesNode.animation == "blink":
 		eyesNode.animation = "open"
-		pupilsNode.visible = true
 		blinkTimer.start()
+
+func _on_eyes_frame_changed() -> void:
+	if eyesNode.animation == "blink" and eyesNode.frame == 4:
+		pupilsNode.visible = false
+	if eyesNode.animation == "blink" and eyesNode.frame == 5:
+		pupilsNode.visible = true
