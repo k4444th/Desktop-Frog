@@ -16,12 +16,12 @@ func _ready() -> void:
 	animation = "idle"
 
 func _on_frame_changed() -> void:
-	setEyeBasePos()
+	setEyePos()
 
 func _process(_delta: float) -> void:
 	followMouse()
 
-func setEyeBasePos():
+func setEyePos():
 	if frame >= 1 and frame <= 5:
 		eyePos.y = baseEyePos.y - 1
 	else:
@@ -35,7 +35,7 @@ func followMouse():
 	pupilsPos.y += 2
 	
 	pupilsPos.x = clamp(pupilsPos.x, -3, 0)
-	pupilsPos.y = clamp(pupilsPos.y, 0 , 3)
+	pupilsPos.y = clamp(pupilsPos.y, -1 , 3)
 	
 	pupilsNode.position = pupilsPos
 
