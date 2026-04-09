@@ -7,7 +7,6 @@ var clickPosition := Vector2.ZERO
 
 @onready var frogNode := $Frog
 @onready var clickTimer := $ClickTimer
-@onready var cameraNode := $Camera
 
 func _ready() -> void:
 	var window = get_window()

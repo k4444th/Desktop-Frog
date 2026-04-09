@@ -7,10 +7,8 @@
 script = ExtResource("1_0wfyh")
 
 [node name="Frog" parent="." unique_id=311887858 instance=ExtResource("1_o5qli")]
-position = Vector2(0, 13.5)
-
-[node name="Camera" type="Camera2D" parent="." unique_id=220433897]
-zoom = Vector2(3, 3)
+position = Vector2(128, 181)
+scale = Vector2(4, 4)
 
 [node name="ClickTimer" type="Timer" parent="." unique_id=1462236319]
 wait_time = 0.2

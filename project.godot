@@ -20,8 +20,8 @@ config/icon="uid://1w5be1eoabl0"
 
 [display]
 
-window/size/viewport_width=192
-window/size/viewport_height=192
+window/size/viewport_width=256
+window/size/viewport_height=256
 window/size/borderless=true
 window/size/always_on_top=true
 window/size/transparent=true

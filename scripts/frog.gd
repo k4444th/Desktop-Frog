@@ -30,9 +30,7 @@ func setEyePos():
 	eyesNode.position = eyePos
 
 func followMouse():
-	var mousePos = get_global_mouse_position()
-	var pupilsPos = mousePos
-	pupilsPos.y += 2
+	var pupilsPos = eyesNode.get_local_mouse_position()
 	
 	pupilsPos.x = clamp(pupilsPos.x, -3, 0)
 	pupilsPos.y = clamp(pupilsPos.y, -1 , 3)
