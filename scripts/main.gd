@@ -42,7 +42,6 @@ func _input(event: InputEvent) -> void:
 			calculateScreenArea()
 		else:
 			mouseDown = false
-			parachuteNode.open()
 			
 			flyDown()
 			
