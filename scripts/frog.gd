@@ -6,6 +6,8 @@ var jumpDuration := 0.5		# 0.1 * num frames in "jump" animation
 var jumping := false
 var baseEyePos := Vector2(0, 2.5)
 var eyePos := baseEyePos
+var usableRect: Rect2
+var frogSize := Vector2.ZERO
 
 @onready var bodyNode := $Body
 @onready var eyesNode := $Eyes
@@ -17,6 +19,7 @@ signal jumpEnd()
 func _ready() -> void:
 	eyesNode.animation = "open"
 	bodyNode.animation = "idle"
+	frogSize = bodyNode.sprite_frames.get_frame_texture("idle", 0).get_size()
 
 func _on_body_frame_changed() -> void:
 	setEyePos()
@@ -44,12 +47,11 @@ func jump(right: bool):
 	if jumping:
 		return
 	
-	var window = get_window()
-	var usableRect := DisplayServer.screen_get_usable_rect()
+	usableRect = DisplayServer.screen_get_usable_rect()
 	
-	if right and not window.position.x + window.size.x + jumpDistance <= usableRect.end.x:
+	if right and not position.x + jumpDistance + frogSize.x * Globals.data.scale / 2 <= usableRect.end.x:
 		right = false
-	elif not right and not window.position.x - jumpDistance >= usableRect.position.x:
+	elif not right and not position.x - jumpDistance - frogSize.x * Globals.data.scale / 2 >= 0:
 		right = true
 	
 	var direction = 1 if right else -1
@@ -61,7 +63,7 @@ func jump(right: bool):
 	
 	jumping = true
 	
-	var startPos = window.position
+	var startPos = position
 	var timePassed = 0.0
 	
 	while timePassed < jumpDuration:
@@ -72,9 +74,9 @@ func jump(right: bool):
 		var x = lerp(0.0, float(jumpDistance * direction), t)
 		var y = -sin(t * PI) * jumpHeight
 		
-		window.position = Vector2i(Vector2(startPos) + Vector2(x, y))
+		position = Vector2i(Vector2(startPos) + Vector2(x, y))
 	
-	window.position = Vector2i(startPos) + Vector2i(jumpDistance * direction, 0)
+	position = Vector2i(startPos) + Vector2i(jumpDistance * direction, 0)
 	
 	jumping = false
 	eyesNode.visible = true
