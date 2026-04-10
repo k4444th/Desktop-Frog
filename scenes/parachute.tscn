@@ -1,0 +1,93 @@
+[gd_scene format=3 uid="uid://cq7dnwlp15buk"]
+
+[ext_resource type="Texture2D" uid="uid://ccv4qrgvnrqlf" path="res://assets/Parachute.png" id="1_lnnik"]
+[ext_resource type="Script" uid="uid://jeauyhp1835h" path="res://scripts/parachute.gd" id="1_vi22e"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vi22e"]
+atlas = ExtResource("1_lnnik")
+region = Rect2(174, 0, 58, 73)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fshcv"]
+atlas = ExtResource("1_lnnik")
+region = Rect2(116, 0, 58, 73)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sbufd"]
+atlas = ExtResource("1_lnnik")
+region = Rect2(58, 0, 58, 73)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cuyg8"]
+atlas = ExtResource("1_lnnik")
+region = Rect2(0, 0, 58, 73)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wmsi4"]
+atlas = ExtResource("1_lnnik")
+region = Rect2(232, 0, 58, 73)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xxull"]
+atlas = ExtResource("1_lnnik")
+region = Rect2(0, 0, 58, 73)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oqljc"]
+atlas = ExtResource("1_lnnik")
+region = Rect2(58, 0, 58, 73)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lqydw"]
+atlas = ExtResource("1_lnnik")
+region = Rect2(116, 0, 58, 73)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_alq5m"]
+atlas = ExtResource("1_lnnik")
+region = Rect2(174, 0, 58, 73)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_emew2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vi22e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fshcv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sbufd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cuyg8")
+}],
+"loop": true,
+"name": &"closing",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wmsi4")
+}],
+"loop": true,
+"name": &"open",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xxull")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oqljc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lqydw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_alq5m")
+}],
+"loop": true,
+"name": &"opening",
+"speed": 5.0
+}]
+
+[node name="Parachute" type="Node2D" unique_id=881828180]
+script = ExtResource("1_vi22e")
+
+[node name="Parachute" type="AnimatedSprite2D" parent="." unique_id=1742170563]
+position = Vector2(0, -31.5)
+sprite_frames = SubResource("SpriteFrames_emew2")
+animation = &"open"

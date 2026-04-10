@@ -1,16 +1,25 @@
 extends Node2D
 
+var parachuteOffset := Vector2(3, 32)
+
 @onready var mainWindow = get_window()
 @onready var frogNode := $Frog
 @onready var frogIdleArea := $IdleArea
 @onready var frogJumpingArea := $JumpingArea
 
+@onready var parachuteWindow := $ParachuteWindow
+@onready var parachuteWindowCamera := $ParachuteWindow/Camera
+@onready var parachuteNode := $ParachuteWindow/Parachute
+
 func _ready() -> void:
 	frogNode.jumpEnd.connect(frogNodeJumpEnd)
 	
-	initWindow()
+	initWindows()
 	initScale()
-	initWindowPosition()
+	initWindowPositions()
+	initSpritePositions()
+	
+	mainWindow.move_to_foreground() 
 	setMousePassthroughArea(frogIdleArea)
 
 func _input(event: InputEvent) -> void:
@@ -18,22 +27,37 @@ func _input(event: InputEvent) -> void:
 		frogNode.jump(event.position.x < mainWindow.size.x / 2.0)
 		setMousePassthroughArea(frogJumpingArea)
 
-func initWindow():
-	get_viewport().transparent_bg = true
+func initWindows():
+	mainWindow.transparent_bg = true
 	mainWindow.transparent = true 
 	mainWindow.borderless = true
 	mainWindow.always_on_top = true
 	mainWindow.unresizable = true
+	
+	parachuteWindow.transparent_bg = true
+	parachuteWindow.transparent = true 
+	parachuteWindow.borderless = true
+	parachuteWindow.unresizable = true
+	parachuteWindow.close_requested.connect(parachuteWindow.queue_free)
+	
+	#parachuteWindow.visible = false
 
 func initScale():
 	frogNode.scale = Vector2(Globals.data.scale, Globals.data.scale)
-	mainWindow.size = frogNode.sprite_frames.get_frame_texture("jump", 0).get_size() * Globals.data.scale
+	mainWindow.size = frogNode.bodyNode.sprite_frames.get_frame_texture("jump", 0).get_size() * Globals.data.scale
+	
+	parachuteNode.scale = Vector2(Globals.data.scale, Globals.data.scale)
+	parachuteWindow.size = parachuteNode.parachuteNode.sprite_frames.get_frame_texture("open", 0).get_size() * Globals.data.scale
 
-func initWindowPosition():
+func initWindowPositions():
 	var usableRect := DisplayServer.screen_get_usable_rect()
 	var yPos = usableRect.end.y - mainWindow.size.y
 	
 	mainWindow.position = Vector2i(0, yPos)
+	parachuteWindow.position = Vector2(parachuteOffset.x * Globals.data.scale, yPos - parachuteOffset.y * Globals.data.scale)
+
+func initSpritePositions():
+	parachuteNode.position.y -= parachuteNode.parachuteNode.position.y * Globals.data.scale
 
 func setMousePassthroughArea(polygon: Polygon2D):
 	var area = PackedVector2Array()

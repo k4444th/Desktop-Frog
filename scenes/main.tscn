@@ -2,9 +2,24 @@
 
 [ext_resource type="Script" uid="uid://buelyq143eut8" path="res://scripts/main.gd" id="1_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://drowuqqrylcgs" path="res://scenes/frog.tscn" id="1_o5qli"]
+[ext_resource type="PackedScene" uid="uid://cq7dnwlp15buk" path="res://scenes/parachute.tscn" id="3_sugp2"]
 
 [node name="Main" type="Node2D" unique_id=770406121]
 script = ExtResource("1_0wfyh")
+
+[node name="ParachuteWindow" type="Window" parent="." unique_id=605562526]
+transparent_bg = true
+canvas_item_default_texture_filter = 0
+oversampling_override = 1.0
+size = Vector2i(58, 73)
+transient = true
+unresizable = true
+borderless = true
+transparent = true
+
+[node name="Parachute" parent="ParachuteWindow" unique_id=881828180 instance=ExtResource("3_sugp2")]
+
+[node name="Camera" type="Camera2D" parent="ParachuteWindow" unique_id=1744669634]
 
 [node name="JumpingArea" type="Polygon2D" parent="." unique_id=1945397475]
 visible = false

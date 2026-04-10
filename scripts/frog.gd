@@ -1,4 +1,4 @@
-extends AnimatedSprite2D
+extends Node2D
 
 var jumpHeight := 50
 var jumpDistance := 100
@@ -7,6 +7,7 @@ var jumping := false
 var baseEyePos := Vector2(0, 2.5)
 var eyePos := baseEyePos
 
+@onready var bodyNode := $Body
 @onready var eyesNode := $Eyes
 @onready var pupilsNode := $Eyes/Pupils
 @onready var blinkTimer := $BlinkTimer
@@ -15,16 +16,16 @@ signal jumpEnd()
 
 func _ready() -> void:
 	eyesNode.animation = "open"
-	animation = "idle"
+	bodyNode.animation = "idle"
 
-func _on_frame_changed() -> void:
+func _on_body_frame_changed() -> void:
 	setEyePos()
 
 func _process(_delta: float) -> void:
 	eyesFollowMouse()
 
 func setEyePos():
-	if frame >= 1 and frame <= 5:
+	if bodyNode.frame >= 1 and bodyNode.frame <= 5:
 		eyePos.y = baseEyePos.y - 1
 	else:
 		eyePos.y = baseEyePos.y
@@ -53,10 +54,10 @@ func jump(right: bool):
 	
 	var direction = 1 if right else -1
 	if !right:
-		flip_h = true
+		bodyNode.flip_h = true
 	
 	eyesNode.visible = false
-	play("jump")
+	bodyNode.play("jump")
 	
 	jumping = true
 	
@@ -77,8 +78,8 @@ func jump(right: bool):
 	
 	jumping = false
 	eyesNode.visible = true
-	play("idle")
-	flip_h = false
+	bodyNode.play("idle")
+	bodyNode.flip_h = false
 	jumpEnd.emit()
 
 func _on_timer_timeout() -> void:
