@@ -54,17 +54,17 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_cuyg8")
 }],
-"loop": true,
+"loop": false,
 "name": &"closing",
-"speed": 5.0
+"speed": 20.0
 }, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_wmsi4")
 }],
-"loop": true,
+"loop": false,
 "name": &"open",
-"speed": 5.0
+"speed": 20.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -79,9 +79,9 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_alq5m")
 }],
-"loop": true,
+"loop": false,
 "name": &"opening",
-"speed": 5.0
+"speed": 20.0
 }]
 
 [node name="Parachute" type="Node2D" unique_id=881828180]
@@ -91,3 +91,5 @@ script = ExtResource("1_vi22e")
 position = Vector2(0, -31.5)
 sprite_frames = SubResource("SpriteFrames_emew2")
 animation = &"open"
+
+[connection signal="animation_finished" from="Parachute" to="." method="_on_parachute_animation_finished"]
