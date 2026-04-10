@@ -6,6 +6,8 @@ extends Node2D
 @onready var frogJumpingArea := $JumpingArea
 
 func _ready() -> void:
+	frogNode.jumpEnd.connect(frogNodeJumpEnd)
+	
 	initWindow()
 	initScale()
 	initWindowPosition()
@@ -14,6 +16,7 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		frogNode.jump(event.position.x < mainWindow.size.x / 2.0)
+		setMousePassthroughArea(frogJumpingArea)
 
 func initWindow():
 	get_viewport().transparent_bg = true
@@ -38,5 +41,7 @@ func setMousePassthroughArea(polygon: Polygon2D):
 	for p in polygon.polygon:
 		area.append(p * Globals.data.scale + mainWindow.size / 2.0)
 	
-	print(area)
 	DisplayServer.window_set_mouse_passthrough(area)
+
+func frogNodeJumpEnd():
+	setMousePassthroughArea(frogIdleArea)

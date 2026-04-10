@@ -11,6 +11,8 @@ var eyePos := baseEyePos
 @onready var pupilsNode := $Eyes/Pupils
 @onready var blinkTimer := $BlinkTimer
 
+signal jumpEnd()
+
 func _ready() -> void:
 	eyesNode.animation = "open"
 	animation = "idle"
@@ -77,6 +79,7 @@ func jump(right: bool):
 	eyesNode.visible = true
 	play("idle")
 	flip_h = false
+	jumpEnd.emit()
 
 func _on_timer_timeout() -> void:
 	eyesNode.play("blink")
