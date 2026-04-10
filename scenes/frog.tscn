@@ -8,43 +8,43 @@
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_p8yr8"]
 atlas = ExtResource("1_mqod6")
-region = Rect2(0, 0, 58, 37)
+region = Rect2(0, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2aq02"]
 atlas = ExtResource("1_mqod6")
-region = Rect2(58, 0, 58, 37)
+region = Rect2(64, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1j5sl"]
 atlas = ExtResource("1_mqod6")
-region = Rect2(116, 0, 58, 37)
+region = Rect2(128, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_blvm1"]
 atlas = ExtResource("1_mqod6")
-region = Rect2(174, 0, 58, 37)
+region = Rect2(192, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jg4rb"]
 atlas = ExtResource("1_mqod6")
-region = Rect2(232, 0, 58, 37)
+region = Rect2(256, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ymnba"]
 atlas = ExtResource("1_mqod6")
-region = Rect2(290, 0, 58, 37)
+region = Rect2(320, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_f47h2"]
 atlas = ExtResource("1_mqod6")
-region = Rect2(348, 0, 58, 37)
+region = Rect2(384, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wyyg8"]
 atlas = ExtResource("1_mqod6")
-region = Rect2(406, 0, 58, 37)
+region = Rect2(448, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4j6kb"]
 atlas = ExtResource("1_mqod6")
-region = Rect2(464, 0, 58, 37)
+region = Rect2(512, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_blxar"]
 atlas = ExtResource("1_mqod6")
-region = Rect2(522, 0, 58, 37)
+region = Rect2(576, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_eqhdc"]
 atlas = ExtResource("2_ybftx")
@@ -215,7 +215,7 @@ script = ExtResource("2_rq8tc")
 
 [node name="Eyes" type="AnimatedSprite2D" parent="." unique_id=1627464856]
 clip_children = 2
-position = Vector2(0, -11)
+position = Vector2(0, 2.5)
 sprite_frames = SubResource("SpriteFrames_p8yr8")
 animation = &"open"
 
