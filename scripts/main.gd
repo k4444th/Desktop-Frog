@@ -3,9 +3,13 @@ extends Node2D
 # General
 var usableRect: Rect2
 
-# Sprite related
+# Sprite sizes
 var frogSize := Vector2.ZERO
 var parachuteSize := Vector2.ZERO
+var flySize := Vector2.ZERO
+
+# Offset constans
+var frogFlyingOffset := Vector2(0, 13)
 var parachuteOffset := Vector2(3, -32)
 
 # Click logic
@@ -26,14 +30,18 @@ var isFlying := false
 # Frog (onready)
 @onready var frogNode := $Frog
 @onready var frogIdleArea := $IdleArea
-@onready var frogJumpingArea := $JumpingArea
+@onready var frogWholeArea := $WholeArea
 @onready var frogCameraNode := $Camera
 
 # Parachute (onready)
-@onready var parachuteWindow = $ParachuteWindow
 @onready var parachuteNode := $Parachute
+@onready var parachuteWindow := $ParachuteWindow
 @onready var parachuteCameraNode := $ParachuteWindow/Camera
 
+# Fly (onready)
+@onready var flyNode := $Fly
+@onready var flyWindow := $FlyWindow
+@onready var flyCameraNode := $FlyWindow/Camera
 
 func _ready() -> void:
 	frogNode.jumpEnd.connect(frogNodeJumpEnd)
@@ -46,11 +54,10 @@ func _ready() -> void:
 	initSpriteScales()
 	initWindowSizes()
 	initSpritePositions()
+	setMousePassthroughAreas()
 	initSubwindowsVisibility()
-	
 	setWindowPositions()
 	setCameraPositions()
-	setMousePassthroughArea(frogIdleArea)
 
 func _physics_process(_delta: float) -> void:
 	setWindowPositions()
@@ -66,63 +73,72 @@ func _input(event: InputEvent) -> void:
 		else:
 			mouseDown = false
 			
-			flyDown()
-			
 			if not clickCancelled:
 				frogNode.jump(event.position.x < mainWindow.size.x / 2.0)
-				setMousePassthroughArea(frogJumpingArea)
+				setMousePassthroughArea(frogWholeArea, mainWindow)
+			
+			if isDragging:
+				isDragging = false
+				flyDown()
 	
 	if event is InputEventMouseMotion:
-		if mouseDown:
+		if mouseDown and event.relative.length() > 2:
+			isDragging = true
 			frogNode.position = get_global_mouse_position() - dragOffset * Globals.data.scale
 			
 			var minPos = usableRect.position + Vector2(0, (parachuteSize.y + parachuteOffset.y) * Globals.data.scale)
 			var maxPos = Vector2(usableRect.size.x - frogSize.x * Globals.data.scale, usableRect.position.y + usableRect.size.y - frogSize.y * Globals.data.scale)
 			frogNode.position = frogNode.position.clamp(minPos, maxPos)
 			
-			setMousePassthroughArea(frogIdleArea)
+			setMousePassthroughArea(frogIdleArea, mainWindow)
 
 func initWindows():
-	mainWindow.transparent_bg = true
-	mainWindow.transparent = true 
-	mainWindow.borderless = true
-	mainWindow.always_on_top = true
-	mainWindow.unresizable = true
-	
-	
-	parachuteWindow.transparent_bg = true
-	parachuteWindow.transparent = true 
-	parachuteWindow.borderless = true
-	parachuteWindow.always_on_top = true
-	parachuteWindow.unresizable = true
+	initWindow(mainWindow)
+	initWindow(parachuteWindow)
+	initWindow(flyWindow)
 	
 	mainWindow.grab_focus() 
 
+func initWindow(window: Window):
+	window.transparent_bg = true
+	window.transparent = true 
+	window.borderless = true
+	window.always_on_top = true
+	window.unresizable = true
+
 func initWindowWorlds():
 	parachuteWindow.world_2d = mainWindow.world_2d
+	flyWindow.world_2d = mainWindow.world_2d
 
 func initSpriteSizes():
 	frogSize = frogNode.bodyNode.sprite_frames.get_frame_texture("idle", 0).get_size()
 	parachuteSize = parachuteNode.parachuteNode.sprite_frames.get_frame_texture("open", 0).get_size()
+	flySize = flyNode.bodyNode.sprite_frames.get_frame_texture("fly", 0).get_size()
 
 func initSpriteScales():
 	frogNode.scale = Vector2(Globals.data.scale, Globals.data.scale)
 	parachuteNode.scale = Vector2(Globals.data.scale, Globals.data.scale)
+	flyNode.scale = Vector2(Globals.data.scale, Globals.data.scale)
 
 func initWindowSizes():
 	mainWindow.size = frogSize * Globals.data.scale
 	parachuteWindow.size = parachuteSize * Globals.data.scale
+	flyWindow.size = flySize * Globals.data.scale
 
 func initSpritePositions():
 	usableRect = DisplayServer.screen_get_usable_rect()
 	
 	frogNode.position = usableRect.position + Vector2(0, usableRect.size.y - frogSize.y * Globals.data.scale)
 	parachuteNode.position = frogNode.position + Vector2(parachuteOffset.x, 0) * Globals.data.scale
+	flyNode.position = usableRect.position + Vector2(usableRect.size.x - flySize.x * Globals.data.scale, 50)
 
 func initSubwindowsVisibility():
 	parachuteWindow.visible = false
+	flyWindow.visible = true
 
 func setWindowPositions():
+	flyWindow.position = flyNode.position
+	
 	if isFlying:
 		return
 	
@@ -132,46 +148,57 @@ func setWindowPositions():
 	parachuteWindow.position = parachuteNode.position + Vector2(0, parachuteOffset.y) * Globals.data.scale
 
 func setCameraPositions():
+	flyCameraNode.position = flyNode.position
+	
 	if isFlying:
 		return
 		
 	frogCameraNode.position = frogNode.position
 	parachuteCameraNode.position = parachuteNode.position + Vector2(0, parachuteOffset.y) * Globals.data.scale
 
-func setMousePassthroughArea(polygon: Polygon2D):
+func setMousePassthroughAreas():
+	setMousePassthroughArea(frogIdleArea, mainWindow)
+	setMousePassthroughArea(Polygon2D.new(), parachuteWindow)
+	setMousePassthroughArea(Polygon2D.new(), flyWindow)
+
+func setMousePassthroughArea(polygon: Polygon2D, window: Window):
 	var area = PackedVector2Array()
 	
 	for p in polygon.polygon:
 		area.append(p * Globals.data.scale + mainWindow.size / 2.0)
 	
-	DisplayServer.window_set_mouse_passthrough(area)
+	DisplayServer.window_set_mouse_passthrough(area, window.get_window_id())
 
 func frogNodeJumpEnd():
-	setMousePassthroughArea(frogIdleArea)
+	setMousePassthroughArea(frogIdleArea, mainWindow)
 
 func flyDown():
 	usableRect = DisplayServer.screen_get_usable_rect()
-	DisplayServer.window_set_mouse_passthrough([])
+	setMousePassthroughArea(frogWholeArea, mainWindow)
 	
 	var yPos = usableRect.position.y + usableRect.size.y - (frogSize.y * Globals.data.scale)
 	var xPos = clamp(frogNode.position.x, 0, usableRect.size.x - (frogSize.x * Globals.data.scale))
-	#var oldXPos = frogNode.position.x
+	
+	frogNode.position += frogFlyingOffset * Globals.data.scale
+	parachuteNode.position = frogNode.position + Vector2(parachuteOffset.x, 0) * Globals.data.scale
+	
+	setCameraPositions()
+	setWindowPositions()
 	
 	var flyTime = pow(abs(frogNode.position.y - yPos), 0.6) * 0.0175
 	var parachuteAnimationDuration = (1 / parachuteNode.parachuteNode.sprite_frames.get_animation_speed("opening")) * parachuteNode.parachuteNode.sprite_frames.get_frame_count("opening")
 	
-	mainWindow.position = frogNode.position
-	
-	
 	if flyTime > parachuteAnimationDuration:
 		parachuteNode.position = frogNode.position + Vector2(parachuteOffset.x, 0) * Globals.data.scale
-		#parachuteNode.rotation_degrees = (oldXPos - xPos) / 10
 		parachuteWindow.position = parachuteNode.position + Vector2(0, parachuteOffset.y) * Globals.data.scale
 		parachuteCameraNode.position = parachuteNode.position + Vector2(0, parachuteOffset.y) * Globals.data.scale
 		parachuteWindow.visible = true
 		parachuteNode.open()
 	
 	isFlying = true
+	
+	frogNode.bodyNode.play("flying")
+	frogNode.eyesNode.visible = false
 	
 	var frogPositionTween = get_tree().create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
 	frogPositionTween.tween_property(frogNode, "position", Vector2(xPos, yPos), flyTime)
@@ -191,18 +218,17 @@ func flyDown():
 	var parachuteCameraPositionTween = get_tree().create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
 	parachuteCameraPositionTween.tween_property(parachuteCameraNode, "position", Vector2(Vector2i(xPos, yPos) + Vector2i(parachuteOffset * Globals.data.scale)), flyTime)
 	
-	#if parachuteNode.rotation_degrees != 0:
-		#var parachuetRotationTween = get_tree().create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
-		#parachuetRotationTween.tween_property(parachuteNode, "rotation", 0, flyTime)
-	
 	await frogPositionTween.finished
+	
+	frogNode.bodyNode.play("idle")
+	frogNode.eyesNode.visible = true
 	
 	isFlying = false
 	
 	if flyTime > parachuteAnimationDuration:
 		parachuteNode.close()
 	
-	setMousePassthroughArea(frogIdleArea)
+	setMousePassthroughArea(frogIdleArea, mainWindow)
 
 func parachuteClosed():
 	parachuteWindow.visible = false

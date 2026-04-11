@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://drowuqqrylcgs"]
 
 [ext_resource type="Texture2D" uid="uid://c0sbkbutrnfp7" path="res://assets/Frog Idle.png" id="1_mqod6"]
+[ext_resource type="Texture2D" uid="uid://cg5f6ebxi1gt6" path="res://assets/Frog Flying.png" id="2_4ifle"]
 [ext_resource type="Texture2D" uid="uid://b43ebs62x0acb" path="res://assets/Frog Pupils.png" id="2_qyo2l"]
 [ext_resource type="Script" uid="uid://c1g75m7tptlow" path="res://scripts/frog.gd" id="2_rq8tc"]
 [ext_resource type="Texture2D" uid="uid://b24vvy3xdb1gj" path="res://assets/Frog Jump.png" id="2_ybftx"]
@@ -68,6 +69,14 @@ region = Rect2(256, 0, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_blxar"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_4ifle")
+}],
+"loop": true,
+"name": &"flying",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 10.0,
 "texture": SubResource("AtlasTexture_1g2vb")

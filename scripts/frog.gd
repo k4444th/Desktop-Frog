@@ -79,7 +79,7 @@ func jump(right: bool):
 		var x = lerp(0.0, float(jumpDistance * direction), t)
 		var y = -sin(t * PI) * jumpHeight
 		
-		position = Vector2i(Vector2(startPos) + Vector2(x, y))
+		position = Vector2i(startPos + Vector2(x, y))
 	
 	position = Vector2i(startPos) + Vector2i(jumpDistance * direction, 0)
 	

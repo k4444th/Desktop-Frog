@@ -1,0 +1,118 @@
+[gd_scene format=3 uid="uid://s8la343yel7r"]
+
+[ext_resource type="Script" uid="uid://cv307h18xq6nb" path="res://scripts/fly.gd" id="1_2lkvx"]
+[ext_resource type="Texture2D" uid="uid://cdcw5wxy8x1tn" path="res://assets/Fly.png" id="1_djddo"]
+[ext_resource type="Texture2D" uid="uid://b2raih7p3nmuq" path="res://assets/Fly Blink.png" id="2_xr3pu"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xr3pu"]
+atlas = ExtResource("1_djddo")
+region = Rect2(0, 0, 24, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2lkvx"]
+atlas = ExtResource("1_djddo")
+region = Rect2(24, 0, 24, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sgyng"]
+atlas = ExtResource("1_djddo")
+region = Rect2(48, 0, 24, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0qovp"]
+atlas = ExtResource("1_djddo")
+region = Rect2(72, 0, 24, 22)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_eyt7k"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xr3pu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2lkvx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sgyng")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0qovp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sgyng")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2lkvx")
+}],
+"loop": true,
+"name": &"fly",
+"speed": 10.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eyt7k"]
+atlas = ExtResource("2_xr3pu")
+region = Rect2(5, 0, 5, 7)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eswn2"]
+atlas = ExtResource("2_xr3pu")
+region = Rect2(10, 0, 5, 7)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_swjup"]
+atlas = ExtResource("2_xr3pu")
+region = Rect2(15, 0, 5, 7)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_17s7p"]
+atlas = ExtResource("2_xr3pu")
+region = Rect2(0, 0, 5, 7)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_i8466"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eyt7k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eswn2")
+}, {
+"duration": 3.0,
+"texture": SubResource("AtlasTexture_swjup")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eswn2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eyt7k")
+}],
+"loop": false,
+"name": &"blink",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_17s7p")
+}],
+"loop": false,
+"name": &"open",
+"speed": 10.0
+}]
+
+[node name="Fly" type="Node2D" unique_id=1104766730]
+script = ExtResource("1_2lkvx")
+
+[node name="Body" type="AnimatedSprite2D" parent="." unique_id=671382593]
+sprite_frames = SubResource("SpriteFrames_eyt7k")
+animation = &"fly"
+autoplay = "fly"
+centered = false
+
+[node name="Eye" type="AnimatedSprite2D" parent="Body" unique_id=461490853]
+position = Vector2(4.5, 12.5)
+sprite_frames = SubResource("SpriteFrames_i8466")
+animation = &"blink"
+frame = 4
+frame_progress = 1.0
+
+[node name="BlinkTimer" type="Timer" parent="." unique_id=1363572256]
+wait_time = 5.0
+one_shot = true
+autostart = true
+
+[connection signal="animation_finished" from="Body/Eye" to="." method="_on_eye_animation_finished"]
+[connection signal="timeout" from="BlinkTimer" to="." method="_on_blink_timer_timeout"]

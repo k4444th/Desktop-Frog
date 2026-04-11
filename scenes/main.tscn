@@ -3,11 +3,12 @@
 [ext_resource type="Script" uid="uid://buelyq143eut8" path="res://scripts/main.gd" id="1_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://drowuqqrylcgs" path="res://scenes/frog.tscn" id="1_o5qli"]
 [ext_resource type="PackedScene" uid="uid://cq7dnwlp15buk" path="res://scenes/parachute.tscn" id="3_sugp2"]
+[ext_resource type="PackedScene" uid="uid://s8la343yel7r" path="res://scenes/fly.tscn" id="4_jyhfs"]
 
 [node name="Main" type="Node2D" unique_id=770406121]
 script = ExtResource("1_0wfyh")
 
-[node name="JumpingArea" type="Polygon2D" parent="." unique_id=1945397475]
+[node name="WholeArea" type="Polygon2D" parent="." unique_id=1945397475]
 visible = false
 polygon = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
 
@@ -19,6 +20,8 @@ polygon = PackedVector2Array(-4, 1, 4, 1, 4, 0, 6, 0, 6, -1, 7, -1, 7, -3, 8, -3
 position = Vector2(3, 0)
 
 [node name="Frog" parent="." unique_id=311887858 instance=ExtResource("1_o5qli")]
+
+[node name="Fly" parent="." unique_id=1104766730 instance=ExtResource("4_jyhfs")]
 
 [node name="Camera" type="Camera2D" parent="." unique_id=802778026]
 anchor_mode = 0
@@ -33,6 +36,19 @@ always_on_top = true
 transparent = true
 
 [node name="Camera" type="Camera2D" parent="ParachuteWindow" unique_id=263965885]
+position = Vector2(0, 4)
+anchor_mode = 0
+
+[node name="FlyWindow" type="Window" parent="." unique_id=1767797721]
+transparent_bg = true
+canvas_item_default_texture_filter = 0
+oversampling_override = 1.0
+unresizable = true
+borderless = true
+always_on_top = true
+transparent = true
+
+[node name="Camera" type="Camera2D" parent="FlyWindow" unique_id=706814931]
 position = Vector2(0, 4)
 anchor_mode = 0
 
