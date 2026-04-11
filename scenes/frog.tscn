@@ -119,7 +119,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_4j6kb")
 }],
-"loop": true,
+"loop": false,
 "name": &"jump",
 "speed": 10.0
 }]
@@ -214,10 +214,11 @@ script = ExtResource("2_rq8tc")
 sprite_frames = SubResource("SpriteFrames_blxar")
 animation = &"idle"
 autoplay = "idle"
+centered = false
 
 [node name="Eyes" type="AnimatedSprite2D" parent="." unique_id=1287299131]
 clip_children = 2
-position = Vector2(0, 2.5)
+position = Vector2(32, 34.5)
 sprite_frames = SubResource("SpriteFrames_r6508")
 animation = &"open"
 
@@ -230,3 +231,6 @@ one_shot = true
 autostart = true
 
 [connection signal="frame_changed" from="Body" to="." method="_on_body_frame_changed"]
+[connection signal="animation_finished" from="Eyes" to="." method="_on_eyes_animation_finished"]
+[connection signal="frame_changed" from="Eyes" to="." method="_on_eyes_frame_changed"]
+[connection signal="timeout" from="BlinkTimer" to="." method="_on_blink_timer_timeout"]

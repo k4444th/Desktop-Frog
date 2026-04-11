@@ -88,8 +88,9 @@ animations = [{
 script = ExtResource("1_vi22e")
 
 [node name="Parachute" type="AnimatedSprite2D" parent="." unique_id=1742170563]
-position = Vector2(0, -31.5)
+position = Vector2(0, -32)
 sprite_frames = SubResource("SpriteFrames_emew2")
 animation = &"open"
+centered = false
 
 [connection signal="animation_finished" from="Parachute" to="." method="_on_parachute_animation_finished"]

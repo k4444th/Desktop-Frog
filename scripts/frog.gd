@@ -1,13 +1,18 @@
 extends Node2D
 
+# General
+var usableRect: Rect2
+var frogSize := Vector2.ZERO
+
+# Jumping
 var jumpHeight := 50
 var jumpDistance := 100
 var jumpDuration := 0.5		# 0.1 * num frames in "jump" animation
 var jumping := false
-var baseEyePos := Vector2(0, 2.5)
+
+# Eyes
+var baseEyePos := Vector2(32, 34.5)
 var eyePos := baseEyePos
-var usableRect: Rect2
-var frogSize := Vector2.ZERO
 
 @onready var bodyNode := $Body
 @onready var eyesNode := $Eyes
@@ -49,9 +54,9 @@ func jump(right: bool):
 	
 	usableRect = DisplayServer.screen_get_usable_rect()
 	
-	if right and not position.x + jumpDistance + frogSize.x * Globals.data.scale / 2 <= usableRect.end.x:
+	if right and not position.x + jumpDistance <= usableRect.end.x:
 		right = false
-	elif not right and not position.x - jumpDistance - frogSize.x * Globals.data.scale / 2 >= 0:
+	elif not right and not position.x - jumpDistance  >= 0:
 		right = true
 	
 	var direction = 1 if right else -1
@@ -84,7 +89,7 @@ func jump(right: bool):
 	bodyNode.flip_h = false
 	jumpEnd.emit()
 
-func _on_timer_timeout() -> void:
+func _on_blink_timer_timeout() -> void:
 	eyesNode.play("blink")
 
 func _on_eyes_animation_finished() -> void:
