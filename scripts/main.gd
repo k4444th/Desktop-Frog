@@ -29,9 +29,9 @@ var isFlying := false
 
 # Frog (onready)
 @onready var frogNode := $Frog
-@onready var frogIdleArea := $IdleArea
-@onready var frogWholeArea := $WholeArea
 @onready var frogCameraNode := $Camera
+@onready var frogIdleArea := $FrogIdleArea
+@onready var frogWholeArea := $FrogWholeArea
 
 # Parachute (onready)
 @onready var parachuteNode := $Parachute
@@ -42,11 +42,13 @@ var isFlying := false
 @onready var flyNode := $Fly
 @onready var flyWindow := $FlyWindow
 @onready var flyCameraNode := $FlyWindow/Camera
+@onready var flyArea := $FlyArea
 
 func _ready() -> void:
 	frogNode.jumpEnd.connect(frogNodeJumpEnd)
 	parachuteNode.parachuteClosed.connect(parachuteClosed)
 	parachuteWindow.close_requested.connect(queue_free)
+	flyNode.flyPositionChanged.connect(flyPositionChanged)
 	
 	initWindows()
 	initWindowWorlds()
@@ -65,6 +67,7 @@ func _physics_process(_delta: float) -> void:
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		print(event)
 		if event.pressed:
 			mouseDown = true
 			clickCancelled = false
@@ -159,13 +162,13 @@ func setCameraPositions():
 func setMousePassthroughAreas():
 	setMousePassthroughArea(frogIdleArea, mainWindow)
 	setMousePassthroughArea(Polygon2D.new(), parachuteWindow)
-	setMousePassthroughArea(Polygon2D.new(), flyWindow)
+	setMousePassthroughArea(flyArea, flyWindow)
 
 func setMousePassthroughArea(polygon: Polygon2D, window: Window):
 	var area = PackedVector2Array()
 	
 	for p in polygon.polygon:
-		area.append(p * Globals.data.scale + mainWindow.size / 2.0)
+		area.append(p * Globals.data.scale)
 	
 	DisplayServer.window_set_mouse_passthrough(area, window.get_window_id())
 
@@ -233,5 +236,12 @@ func flyDown():
 func parachuteClosed():
 	parachuteWindow.visible = false
 
+func flyPositionChanged():
+	setMousePassthroughArea(flyArea, flyWindow)
+
 func _on_deadzone_timer_timeout() -> void:
 	clickCancelled = true
+
+func _on_fly_window_window_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		print(event)

@@ -106,8 +106,6 @@ centered = false
 position = Vector2(4.5, 12.5)
 sprite_frames = SubResource("SpriteFrames_i8466")
 animation = &"blink"
-frame = 4
-frame_progress = 1.0
 
 [node name="BlinkTimer" type="Timer" parent="." unique_id=1363572256]
 wait_time = 5.0

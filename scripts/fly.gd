@@ -7,7 +7,7 @@ var flySize := Vector2.ZERO
 # Flying constants
 var flyingSpeed := 250
 var sineTime := 1.5
-var sineHeight := 50
+var sineHeight := 10
 var startPos := Vector2.ZERO
 var timePassed := 0.0
 var direction := -1
@@ -20,13 +20,8 @@ var borderSafeArea := 5
 # Timer (onready)
 @onready var blinkTimer := $BlinkTimer
 
-func _on_blink_timer_timeout() -> void:
-	eyeNode.play("blink")
-
-func _on_eye_animation_finished() -> void:
-	if eyeNode.animation == "blink":
-		eyeNode.animation = "open"
-		blinkTimer.start()
+# Signals
+signal flyPositionChanged()
 
 func _ready():
 	flySize = bodyNode.sprite_frames.get_frame_texture("fly", 0).get_size()
@@ -52,12 +47,22 @@ func _process(delta: float) -> void:
 		else:
 			bodyNode.flip_h = false
 			eyeNode.flip_h = false
-			eyeNode.position.x = 12.5
+			eyeNode.position.x = 4.5
 	
 	timePassed += delta
 	
 	var t = timePassed
 	var x = t * flyingSpeed * direction
-	var y = -sin(t * PI) * sineHeight
+	var y = -sin(t * PI) * sineHeight * Globals.data.scale
 	
 	position = startPos + Vector2(x, y)
+	
+	flyPositionChanged.emit()
+
+func _on_blink_timer_timeout() -> void:
+	eyeNode.play("blink")
+
+func _on_eye_animation_finished() -> void:
+	if eyeNode.animation == "blink":
+		eyeNode.animation = "open"
+		blinkTimer.start()

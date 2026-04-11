@@ -5,7 +5,7 @@ var usableRect: Rect2
 var frogSize := Vector2.ZERO
 
 # Jumping
-var jumpHeight := 50
+var jumpHeight := 10
 var jumpDistance := 100
 var jumpDuration := 0.5		# 0.1 * num frames in "jump" animation
 var jumping := false
@@ -77,7 +77,7 @@ func jump(right: bool):
 		
 		var t = timePassed / jumpDuration
 		var x = lerp(0.0, float(jumpDistance * direction), t)
-		var y = -sin(t * PI) * jumpHeight
+		var y = -sin(t * PI) * jumpHeight * Globals.data.scale
 		
 		position = Vector2i(startPos + Vector2(x, y))
 	
