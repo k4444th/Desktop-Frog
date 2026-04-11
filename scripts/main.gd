@@ -74,8 +74,13 @@ func _input(event: InputEvent) -> void:
 	
 	if event is InputEventMouseMotion:
 		if mouseDown:
-			setMousePassthroughArea(frogIdleArea)
 			frogNode.position = get_global_mouse_position() - dragOffset * Globals.data.scale
+			
+			var minPos = usableRect.position + Vector2(0, (parachuteSize.y + parachuteOffset.y) * Globals.data.scale)
+			var maxPos = Vector2(usableRect.size.x - frogSize.x * Globals.data.scale, usableRect.position.y + usableRect.size.y - frogSize.y * Globals.data.scale)
+			frogNode.position = frogNode.position.clamp(minPos, maxPos)
+			
+			setMousePassthroughArea(frogIdleArea)
 
 func initWindows():
 	mainWindow.transparent_bg = true
@@ -201,7 +206,6 @@ func flyDown():
 
 func parachuteClosed():
 	parachuteWindow.visible = false
-	
 
 func _on_deadzone_timer_timeout() -> void:
 	clickCancelled = true
