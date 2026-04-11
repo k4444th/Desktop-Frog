@@ -112,5 +112,10 @@ wait_time = 5.0
 one_shot = true
 autostart = true
 
+[node name="NewPositionTimer" type="Timer" parent="." unique_id=1659739517]
+wait_time = 5.0
+autostart = true
+
 [connection signal="animation_finished" from="Body/Eye" to="." method="_on_eye_animation_finished"]
 [connection signal="timeout" from="BlinkTimer" to="." method="_on_blink_timer_timeout"]
+[connection signal="timeout" from="NewPositionTimer" to="." method="_on_new_position_timer_timeout"]

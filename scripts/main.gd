@@ -67,7 +67,6 @@ func _physics_process(_delta: float) -> void:
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
-		print(event)
 		if event.pressed:
 			mouseDown = true
 			clickCancelled = false
