@@ -61,6 +61,15 @@ func pickNewTarget():
 
 	moveTime = 0.0
 	state = State.FLYING
+	
+	if position.x < targetPosition.x:
+		bodyNode.flip_h = true
+		eyeNode.flip_h = true
+		eyeNode.position.x = 19.5
+	else:
+		bodyNode.flip_h = false
+		eyeNode.flip_h = false
+		eyeNode.position.x = 4.5
 
 func pickNewJitterTarget():
 	var randomOffset = Vector2(
@@ -69,6 +78,15 @@ func pickNewJitterTarget():
 	)
 	
 	targetPosition = position + randomOffset
+	
+	if position.x < targetPosition.x:
+		bodyNode.flip_h = true
+		eyeNode.flip_h = true
+		eyeNode.position.x = 19.5
+	else:
+		bodyNode.flip_h = false
+		eyeNode.flip_h = false
+		eyeNode.position.x = 4.5
 
 func _on_blink_timer_timeout() -> void:
 	eyeNode.play("blink")
